@@ -178,7 +178,7 @@ internal class GetFromDB
             {
                 res.Name = SQLReader["Name"].ToString();
                 res.Technology = SQLReader["Technology"].ToString();
-                string desc = SQLReader["Descritpion"].ToString();
+                string desc = SQLReader["Description"].ToString();
                 if (desc != "")
                 {
                     res.Description = desc;
@@ -357,6 +357,52 @@ internal class GetFromDB
                 bool occuped = occ == "1";
                 res.Occuped = occuped;
 
+            }
+            SQLReader.Close();
+
+        }
+        return res;
+    }
+
+    public static Equipment GetEquipmentFromDB(SqlConnection Conn, string name)
+    {
+        Equipment res = new Equipment();
+        StringBuilder strBuilder = new StringBuilder();
+        strBuilder.Append($"SELECT * FROM [Equipment] WHERE Name = '{name}'");
+        string sqlQuery = strBuilder.ToString();
+        using (SqlCommand command = new SqlCommand(sqlQuery, Conn)) //pass SQL query created above and connection
+        {
+            SqlDataReader SQLReader = command.ExecuteReader(); //execute the Query
+            while (SQLReader.Read())
+            {
+                int quant = 0;
+                string q = SQLReader["Quantity"].ToString();
+                int.TryParse(q, out quant);
+                res.Quantity = quant;
+                res.Name = SQLReader["Name"].ToString();
+                string mov = SQLReader["Movable"].ToString();
+                bool movable = (mov == "1");
+                res.Movable = movable;
+
+            }
+            SQLReader.Close();
+
+        }
+        return res;
+    }
+
+    public static Discipline GetDisciplineFromDB(SqlConnection Conn, string name)
+    {
+        Discipline res = new Discipline();
+        StringBuilder strBuilder = new StringBuilder();
+        strBuilder.Append($"SELECT * FROM [Discipline] WHERE Name = '{name}'");
+        string sqlQuery = strBuilder.ToString();
+        using (SqlCommand command = new SqlCommand(sqlQuery, Conn)) //pass SQL query created above and connection
+        {
+            SqlDataReader SQLReader = command.ExecuteReader(); //execute the Query
+            while (SQLReader.Read())
+            {
+                res.Name = SQLReader["Name"].ToString();
             }
             SQLReader.Close();
 

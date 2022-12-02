@@ -96,4 +96,14 @@ internal class Utilities
         }
     }
 
+    public static bool HasColumn(SqlDataReader data, string columnName)
+    {
+        for (int i = 0; i < data.FieldCount; i++)
+        {
+            if (data.GetName(i).Equals(columnName, StringComparison.InvariantCultureIgnoreCase))
+                return true;
+        }
+        return false;
+    }
+
 }

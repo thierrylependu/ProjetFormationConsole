@@ -47,7 +47,7 @@ internal class HistoricTeacher
 
     public void UpdateDescription(SqlConnection Conn)
     {
-        Utilities.UpdateRow(Conn, "HistoricTeacher", "Description", Description, $"TeacherId = '{TeacherId}' AND  AND EmployementStart = '{EmployementStart}'");
+        Utilities.UpdateRow(Conn, "HistoricTeacher", "Description", Description, $"TeacherId = '{TeacherId}' AND EmployementStart = '{EmployementStart}'");
     }
 
     public void DeleteFromDB(SqlConnection Conn)

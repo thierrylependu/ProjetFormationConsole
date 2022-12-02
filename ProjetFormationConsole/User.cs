@@ -34,6 +34,16 @@ internal class User
         this.Password = LastName + BirthDate.ToShortDateString();
     }
 
+    public User(string LastName, string FirstName, DateTime BirthDate, string Gender)
+    {
+        this.LastName = LastName;
+        this.FirstName = FirstName;
+        this.BirthDate = BirthDate;
+        this.Gender = Gender;
+        this.UserName = LastName + FirstName;
+        this.Password = LastName + BirthDate.ToShortDateString();
+    }
+
     public User()
     {
         this.LastName = "";
@@ -45,7 +55,7 @@ internal class User
         this.Password = LastName;
     }
 
-    public void AddToDB(SqlConnection Conn)
+    public void AddUserToDB(SqlConnection Conn)
     {
         Utilities.AddToDB(Conn,
             "User",
@@ -69,7 +79,7 @@ internal class User
         Utilities.UpdateRow(Conn, "User", "Picture", this.Picture, $"Username = '{UserName}'");
     }
 
-    public void DeleteFromDB(SqlConnection Conn)
+    public void DeleteUserFromDB(SqlConnection Conn)
     {
         Utilities.DeleteFromDB(Conn, "User", $"UserName = '{UserName}'");
     }

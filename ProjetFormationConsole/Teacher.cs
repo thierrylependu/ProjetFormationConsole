@@ -10,9 +10,11 @@ internal class Teacher : User
 {
     public int DisciplineId { get; set; }
     public string Resume { get; set; }
+    public int UserId;
 
-    public Teacher(string LastName, string FirstName, DateTime BirthDate, string Gender, RoleType Role, int discId, string res) : base(LastName, FirstName, BirthDate, Gender, Role)
+    public Teacher(string LastName, string FirstName, DateTime BirthDate, string Gender, int discId, string res) : base(LastName, FirstName, BirthDate, Gender)
     {
+        Role = RoleType.Teacher;
         this.DisciplineId = discId;
         this.Resume = res;
     }
