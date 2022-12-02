@@ -55,47 +55,43 @@ internal class GetFromDB
         return res;
     }
 
-    //TODO : Recup l'id
-    public static User GetStudentFromDB(SqlConnection Conn, string UserName)
+
+
+    public static Student GetStudentFromDB(SqlConnection Conn, string UserName, int id)
     {
-        User res = new User();
+        User user = GetUserFromDB(Conn, UserName);
+        Student res = new Student(user.LastName, user.FirstName, user.BirthDate, user.Gender);
         StringBuilder strBuilder = new StringBuilder();
-        strBuilder.Append($"SELECT * FROM [User] WHERE UserName = '{UserName}'");
+        strBuilder.Append($"SELECT * FROM [Student] WHERE UserId = '{id}'");
         string sqlQuery = strBuilder.ToString();
         using (SqlCommand command = new SqlCommand(sqlQuery, Conn)) //pass SQL query created above and connection
         {
             SqlDataReader SQLReader = command.ExecuteReader(); //execute the Query
             while (SQLReader.Read())
             {
-                res.LastName = SQLReader["LastName"].ToString();
-                res.FirstName = SQLReader["FirstName"].ToString();
-                string birthyear = SQLReader["BirthDate"].ToString();
-                res.Gender = SQLReader["Gender"].ToString();
-                string role = SQLReader["Role"].ToString();
-                string picture = SQLReader["Picture"].ToString();
-                res.UserName = SQLReader["UserName"].ToString();
-                res.Password = SQLReader["Password"].ToString();
-                User.RoleType Role;
-                if (role == "Student")
-                {
-                    Role = User.RoleType.Student;
-                }
-                else
-                {
-                    Role = User.RoleType.Teacher;
-
-                }
-                res.Role = Role;
-                DateTime Date = DateTime.Parse(birthyear);
-                res.BirthDate = Date;
-                if (picture != "")
-                {
-                    res.Picture = picture;
-                }
+                string idS = "";
+                idS = SQLReader["UserId"].ToString();
+                int usId = 0;
+                int.TryParse(idS, out usId);
+                res.UserId = usId;
+                res.Paiement = SQLReader["Paiement"].ToString();
+                string dateS = SQLReader["Date"].ToString();
+                DateTime Date = DateTime.Parse(dateS);
+                string idGF = "";
+                idS = SQLReader["FormationGroupId"].ToString();
+                int usGF = 0;
+                int.TryParse(idS, out usGF);
+                res.FormationGroupId = usGF;
+                string idGP = "";
+                idS = SQLReader["ProjectGroupId"].ToString();
+                int usGP = 0;
+                int.TryParse(idS, out usGP);
+                res.ProjectGroupId = usGP;
             }
             SQLReader.Close();
 
         }
+
         return res;
     }
 

@@ -24,6 +24,14 @@ internal class Student : User
         UserId = id;
     }
 
+    public Student(string LastName, string FirstName, DateTime BirthDate, string Gender) : base(LastName, FirstName, BirthDate, Gender)
+    {
+        FormationGroupId = -1;
+        ProjectGroupId = -1;
+        Paiement = "";
+        UserId = -1;
+    }
+
     public Student()
     {
         FormationGroupId = -1;
