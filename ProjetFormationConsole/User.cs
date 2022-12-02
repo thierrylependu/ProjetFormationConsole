@@ -11,7 +11,7 @@ namespace ProjetFormationConsole;
 internal class User
 {
 
-    public enum RoleType { Student, Teacher}
+    public enum RoleType { Student, Teacher }
 
     public string LastName { get; set; }
     public string FirstName { get; set; }
@@ -47,67 +47,31 @@ internal class User
 
     public void AddToDB(SqlConnection Conn)
     {
-        StringBuilder strBuilder = new StringBuilder();
-        strBuilder.Append("INSERT INTO [User] (LastName, FirstName, BirthDate, Gender, Role, UserName, Password) VALUES ");
-        strBuilder.Append($"(N'{LastName}', N'{FirstName}', N'{BirthDate}', N'{Gender}', N'{Role.ToString()}', N'{UserName}', N'{Password}') ");
-        string sqlQuery = strBuilder.ToString();
-        using (SqlCommand command = new SqlCommand(sqlQuery, Conn)) //pass SQL query created above and connection
-        {
-            command.ExecuteNonQuery(); //execute the Query
-            Console.WriteLine("Query Executed.");
-        }
+        Utilities.AddToDB(Conn,
+            "User",
+            $"LastName, FirstName, BirthDate, Gender, Role, UserName, Password",
+            $"N'{LastName}', N'{FirstName}', N'{BirthDate}', N'{Gender}', N'{Role.ToString()}', N'{UserName}', N'{Password}'");
     }
 
     public void UpdatePassword(SqlConnection Conn)
     {
-        StringBuilder strBuilder = new StringBuilder();
-        strBuilder.Append($"UPDATE [User] SET Password = '{Password}' WHERE UserName = '{UserName}'");
-        string sqlQuery = strBuilder.ToString();
-        sqlQuery = strBuilder.ToString();
-        using (SqlCommand command = new SqlCommand(sqlQuery, Conn)) //pass SQL query created above and connection
-        {
-            SqlDataReader SQLReader = command.ExecuteReader(); //execute the Query
-            SQLReader.Close();
-        }
+        Utilities.UpdateRow(Conn, "User", "Password", this.Password, $"Username = '{UserName}'");
     }
 
     public void UpdateRole(SqlConnection Conn)
     {
-        StringBuilder strBuilder = new StringBuilder();
-        strBuilder.Append($"UPDATE [User] SET Role = '{Role}' WHERE UserName = '{UserName}'");
-        string sqlQuery = strBuilder.ToString();
-        sqlQuery = strBuilder.ToString();
-        using (SqlCommand command = new SqlCommand(sqlQuery, Conn)) //pass SQL query created above and connection
-        {
-            SqlDataReader SQLReader = command.ExecuteReader(); //execute the Query
-            SQLReader.Close();
-        }
+        Utilities.UpdateRow(Conn, "User", "Role", this.Role.ToString(), $"Username = '{UserName}'");
+
     }
 
     public void UpdatePicture(SqlConnection Conn)
     {
-        StringBuilder strBuilder = new StringBuilder();
-        strBuilder.Append($"UPDATE [User] SET Picture = '{Picture}' WHERE UserName = '{UserName}'");
-        string sqlQuery = strBuilder.ToString();
-        sqlQuery = strBuilder.ToString();
-        using (SqlCommand command = new SqlCommand(sqlQuery, Conn)) //pass SQL query created above and connection
-        {
-            SqlDataReader SQLReader = command.ExecuteReader(); //execute the Query
-            SQLReader.Close();
-        }
+        Utilities.UpdateRow(Conn, "User", "Picture", this.Picture, $"Username = '{UserName}'");
     }
 
     public void DeleteFromDB(SqlConnection Conn)
     {
-        StringBuilder strBuilder = new StringBuilder();
-        strBuilder.Append($"DELETE FROM [User] WHERE UserName = '{UserName}'");
-        string sqlQuery = strBuilder.ToString();
-        sqlQuery = strBuilder.ToString();
-        using (SqlCommand command = new SqlCommand(sqlQuery, Conn)) //pass SQL query created above and connection
-        {
-            SqlDataReader SQLReader = command.ExecuteReader(); //execute the Query
-            SQLReader.Close();
-        }
+        Utilities.DeleteFromDB(Conn, "User", $"UserName = '{UserName}'");
     }
 
     public void showUser()

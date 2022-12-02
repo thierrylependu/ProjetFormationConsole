@@ -20,7 +20,7 @@ public class Program
         us.showUser();
 
         SqlConnection Conn = Utilities.ConnectToSQLServer();
-        us.DeleteFromDB(Conn);
+        us.AddToDB(Conn);
 
         Utilities.CloseSQLServer(Conn);
     }

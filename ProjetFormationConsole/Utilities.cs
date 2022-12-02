@@ -1,7 +1,9 @@
 ﻿using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -53,6 +55,45 @@ internal class Utilities
     {
         Conn.CloseAsync();
         Console.WriteLine("Fin de connection");
+    }
+
+    public static void AddToDB(SqlConnection Conn, string table, string entry, string values)
+    {
+        StringBuilder strBuilder = new StringBuilder();
+        strBuilder.Append($"INSERT INTO [{table}] ({entry}) VALUES ");
+        strBuilder.Append($"({values}) ");
+        string sqlQuery = strBuilder.ToString();
+        using (SqlCommand command = new SqlCommand(sqlQuery, Conn)) //pass SQL query created above and connection
+        {
+            command.ExecuteNonQuery(); //execute the Query
+            Console.WriteLine("Query Executed.");
+        }
+    }
+
+    public static void UpdateRow(SqlConnection Conn, string table, string row, string value, string condition)
+    {
+        StringBuilder strBuilder = new StringBuilder();
+        strBuilder.Append($"UPDATE [{table}] SET {row} = '{value}' WHERE {condition}");
+        string sqlQuery = strBuilder.ToString();
+        sqlQuery = strBuilder.ToString();
+        using (SqlCommand command = new SqlCommand(sqlQuery, Conn)) //pass SQL query created above and connection
+        {
+            SqlDataReader SQLReader = command.ExecuteReader(); //execute the Query
+            SQLReader.Close();
+        }
+    }
+
+    public static void DeleteFromDB(SqlConnection Conn, string table, string condition)
+    {
+        StringBuilder strBuilder = new StringBuilder();
+        strBuilder.Append($"DELETE FROM [{table}] WHERE {condition}");
+        string sqlQuery = strBuilder.ToString();
+        sqlQuery = strBuilder.ToString();
+        using (SqlCommand command = new SqlCommand(sqlQuery, Conn)) //pass SQL query created above and connection
+        {
+            SqlDataReader SQLReader = command.ExecuteReader(); //execute the Query
+            SQLReader.Close();
+        }
     }
 
 }
